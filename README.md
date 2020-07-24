@@ -1,5 +1,7 @@
 ### Hi there 👋
 
+Github, if you read this, please send me some stickers... 
+
 <!--
 **marianorenteria/marianorenteria** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
