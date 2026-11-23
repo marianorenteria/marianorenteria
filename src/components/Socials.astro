@@ -1,0 +1,17 @@
+---
+import Icon from "./Icon.astro";
+import type { Social } from "../data/site";
+
+interface Props {
+  items: Social[];
+  label?: string;
+}
+const { items, label } = Astro.props;
+---
+<div class="socials" aria-label={label}>
+  {items.map((item) => (
+    <a class="social" href={item.href} target="_blank" rel="noopener" title={item.label} aria-label={item.label}>
+      <Icon name={item.icon} />
+    </a>
+  ))}
+</div>
