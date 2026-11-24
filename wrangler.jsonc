@@ -9,5 +9,8 @@
     "html_handling": "auto-trailing-slash",
     // Unknown URLs get dist/404.html with a 404 status.
     "not_found_handling": "404-page"
-  }
+  },
+  // Workers Builds runs `wrangler preview` on non-production branches.
+  // That command refuses to start unless this block exists. It can be empty.
+  "previews": {}
 }
