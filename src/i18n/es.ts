@@ -43,17 +43,17 @@ export const es = {
   home: {
     title: "Mariano Rentería — Ingeniero, podcaster y mentor",
     description:
-      "SVP of Engineering en MedTrainer y host de Chile, Mole & Tech. Busco ser un líder en esta era de la IA, y la idea es que aprendamos juntos. Desde Querétaro, para LATAM.",
+      "SVP of Engineering en MedTrainer y host de Chile, Mole & Tech. Busco ser un líder en esta era de la IA, y la idea es que aprendamos juntos. Desde Querétaro, para LATAM y Estados Unidos.",
     kicker: "Hola, soy Mariano",
     heading: "Ingeniero, podcaster y mentor. Ayudo a gente de tech a crecer.",
     ledeBefore: "Soy SVP of Engineering en MedTrainer y host de",
     ledeAfter:
-      "Ex-chilango, neo-queretano. Busco ser un líder en esta era de la IA, y la idea es que aprendamos juntos. Escribo y acompaño a personas de tecnología desde Querétaro, para LATAM.",
+      "Ex-chilango, neo-queretano. Busco ser un líder en esta era de la IA, y la idea es que aprendamos juntos. Escribo y acompaño a personas de tecnología desde Querétaro, para LATAM y Estados Unidos.",
     listen: "Escuchar el podcast",
     subscribe: "Suscribirme",
     heroAlt: "Mariano Rentería, sonriendo con una camisa polo clara",
     schema:
-      "Ingeniero, podcaster y mentor. Host de Chile, Mole & Tech. Busca ser un líder en esta era de la IA y aprender junto con su comunidad. Escribe desde Querétaro, para LATAM.",
+      "Ingeniero, podcaster y mentor. Host de Chile, Mole & Tech. Busca ser un líder en esta era de la IA y aprender junto con su comunidad. Escribe desde Querétaro, para LATAM y Estados Unidos.",
     bioKicker: "Sobre mí",
     bioHeading: "Más de 20 años construyendo software.",
     bio: [
@@ -158,7 +158,7 @@ export const es = {
   links: {
     title: "Mariano Rentería — Ingeniero, podcaster y mentor",
     description:
-      "SVP of Engineering en MedTrainer, host de Chile, Mole & Tech. Busco ser un líder en esta era de la IA, y la idea es que aprendamos juntos. Desde Querétaro, para LATAM.",
+      "SVP of Engineering en MedTrainer, host de Chile, Mole & Tech. Busco ser un líder en esta era de la IA, y la idea es que aprendamos juntos. Desde Querétaro, para LATAM y Estados Unidos.",
     tagline: "Ingeniero, podcaster y mentor",
     role: "SVP of Engineering en MedTrainer",
     place: "Querétaro, México",
