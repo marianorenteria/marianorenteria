@@ -45,17 +45,17 @@ export const en: Dictionary = {
   home: {
     title: "Mariano Rentería — Engineer, podcaster, and mentor",
     description:
-      "SVP of Engineering at MedTrainer and host of Chile, Mole & Tech. I want to help lead the way in this AI era, and learn it together with you. From Querétaro, for Latin America.",
+      "SVP of Engineering at MedTrainer and host of Chile, Mole & Tech. I want to help lead the way in this AI era, and learn it together with you. From Querétaro, for Latin America and the US.",
     kicker: "Hi, I'm Mariano",
     heading: "Engineer, podcaster, and mentor. I help people in tech grow.",
     ledeBefore: "I'm SVP of Engineering at MedTrainer and host of",
     ledeAfter:
-      "Ex-chilango, neo-queretano — I left Mexico City for Querétaro. I want to help lead the way in this AI era, and learn it together with you. I write and work with people in tech from Querétaro, for Latin America.",
+      "Ex-chilango, neo-queretano — I left Mexico City for Querétaro. I want to help lead the way in this AI era, and learn it together with you. I write and work with people in tech from Querétaro, for Latin America and the US.",
     listen: "Listen to the podcast",
     subscribe: "Subscribe",
     heroAlt: "Mariano Rentería, smiling in a light polo shirt",
     schema:
-      "Engineer, podcaster, and mentor. Host of Chile, Mole & Tech. He wants to help lead the way in this AI era and learn it together with his community. He writes from Querétaro, for Latin America.",
+      "Engineer, podcaster, and mentor. Host of Chile, Mole & Tech. He wants to help lead the way in this AI era and learn it together with his community. He writes from Querétaro, for Latin America and the US.",
     bioKicker: "About",
     bioHeading: "More than 20 years of building software.",
     bio: [
@@ -160,7 +160,7 @@ export const en: Dictionary = {
   links: {
     title: "Mariano Rentería — Engineer, podcaster, and mentor",
     description:
-      "SVP of Engineering at MedTrainer and host of Chile, Mole & Tech. I want to help lead the way in this AI era, and learn it together with you. From Querétaro, for Latin America.",
+      "SVP of Engineering at MedTrainer and host of Chile, Mole & Tech. I want to help lead the way in this AI era, and learn it together with you. From Querétaro, for Latin America and the US.",
     tagline: "Engineer, podcaster, and mentor",
     role: "SVP of Engineering at MedTrainer",
     place: "Querétaro, Mexico",
