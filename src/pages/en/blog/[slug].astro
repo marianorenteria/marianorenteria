@@ -1,0 +1,15 @@
+---
+import Article from "../../../components/views/Article.astro";
+import { getPosts, postSlug } from "../../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPosts("en");
+  return posts.map((post) => ({
+    params: { slug: postSlug(post) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+<Article locale="en" post={post} />

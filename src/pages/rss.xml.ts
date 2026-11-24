@@ -1,13 +1,15 @@
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
-import { getPosts } from "../lib/posts";
+import { useTranslations } from "../i18n";
+import { postHref } from "../i18n/routes";
+import { getPosts, postSlug } from "../lib/posts";
 
 export async function GET(context: APIContext) {
-  const posts = await getPosts();
+  const t = useTranslations("es");
+  const posts = await getPosts("es");
   return rss({
     title: "Mariano Rentería",
-    description:
-      "Carrera, liderazgo y tecnología. El blog y el newsletter de Mariano Rentería son lo mismo.",
+    description: t.blog.rssDescription,
     site: context.site ?? "https://marianorenteria.com",
     trailingSlash: false,
     customData: "<language>es-mx</language>",
@@ -15,7 +17,7 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.date,
-      link: `/blog/${post.id}`,
+      link: postHref("es", postSlug(post)),
     })),
   });
 }

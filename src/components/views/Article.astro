@@ -1,0 +1,80 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Signup from "../Signup.astro";
+import { useTranslations } from "../../i18n";
+import { absoluteUrl, postHref, routes, type Alternate, type Locale } from "../../i18n/routes";
+import { formatDate, formatLongDate } from "../../lib/dates";
+import { findTranslation, postSlug } from "../../lib/posts";
+
+interface Props {
+  locale: Locale;
+  post: CollectionEntry<"blog">;
+}
+const { locale, post } = Astro.props;
+const t = useTranslations(locale);
+const { Content } = await render(post);
+const slug = postSlug(post);
+const other = locale === "en" ? "es" : "en";
+const translation = await findTranslation(post, other);
+const pageUrl = absoluteUrl(postHref(locale, slug));
+const alternates: Alternate[] = translation
+  ? [
+      { hreflang: "es-MX", href: absoluteUrl(postHref("es", slug)) },
+      { hreflang: "en", href: absoluteUrl(postHref("en", slug)) },
+      { hreflang: "x-default", href: absoluteUrl(postHref("es", slug)) },
+    ]
+  : [
+      { hreflang: locale === "en" ? "en" : "es-MX", href: pageUrl },
+      { hreflang: "x-default", href: pageUrl },
+    ];
+const switchHref = translation ? postHref(other, slug) : routes[other].blog;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  inLanguage: locale === "en" ? "en" : "es-MX",
+  author: {
+    "@type": "Person",
+    name: "Mariano Rentería",
+    url: "https://marianorenteria.com",
+  },
+  image: new URL(post.data.cover, "https://marianorenteria.com").href,
+  mainEntityOfPage: pageUrl,
+  url: pageUrl,
+};
+---
+<SiteLayout
+  locale={locale}
+  title={`${post.data.title} — Mariano Rentería`}
+  description={post.data.description}
+  image={post.data.cover}
+  canonical={post.data.canonical}
+  type="article"
+  publishedTime={post.data.date.toISOString()}
+  schema={schema}
+  alternates={alternates}
+  switchHref={switchHref}
+>
+  <article class="article-wrap">
+    <div class="article">
+      <p class="post-meta">
+        <a href={routes[locale].blog}>{t.nav.blog}</a> · {formatDate(post.data.date, locale)} · {post.data.minutes} {t.blog.reading}
+      </p>
+      <h1>{post.data.title}</h1>
+      <p class="deck">{post.data.description}</p>
+      <img class="cover" src={post.data.cover} alt="" />
+      <Content />
+      {post.data.canonical && (
+        <p class="source">
+          {t.blog.sourceBefore} {formatLongDate(post.data.date, locale)} {t.blog.sourceAfter} <a href={post.data.canonical} target="_blank" rel="noopener">{t.blog.dev}</a>.
+        </p>
+      )}
+    </div>
+    <div class="wrap" style="margin-top:48px;">
+      <Signup locale={locale} anchor text={t.signup.pageText} />
+    </div>
+  </article>
+</SiteLayout>

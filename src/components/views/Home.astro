@@ -1,0 +1,133 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import PodcastPromo from "../PodcastPromo.astro";
+import PostCard from "../PostCard.astro";
+import ProductCard from "../ProductCard.astro";
+import Signup from "../Signup.astro";
+import { productCopy, useTranslations } from "../../i18n";
+import { localeFromPath, routes, type Locale } from "../../i18n/routes";
+import { products } from "../../data/products";
+import { sameAs } from "../../data/site";
+import { getBlogList } from "../../lib/posts";
+
+interface Props {
+  locale?: Locale;
+}
+const locale = Astro.props.locale ?? localeFromPath(Astro.url.pathname);
+const t = useTranslations(locale);
+const posts = (await getBlogList(locale)).slice(0, 3);
+const homeProducts = products.filter((product) => product.home);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Mariano Rentería",
+  url: "https://marianorenteria.com",
+  jobTitle: "SVP of Engineering",
+  worksFor: { "@type": "Organization", name: "MedTrainer" },
+  homeLocation: { "@type": "Place", name: "Querétaro, México" },
+  description: t.home.schema,
+  sameAs,
+};
+---
+<SiteLayout locale={locale} title={t.home.title} description={t.home.description} schema={schema}>
+  <section class="hero-home wrap">
+    <div>
+      <span class="kicker">{t.home.kicker}</span>
+      <h1>{t.home.heading}</h1>
+      <p class="lede">{t.home.ledeBefore} <em>Chile, Mole &amp; Tech</em>. {t.home.ledeAfter}</p>
+      <div class="ctas">
+        <a class="btn" href={routes[locale].podcast}>{t.home.listen}</a>
+        <a class="btn ghost" href="#newsletter">{t.home.subscribe}</a>
+      </div>
+    </div>
+    <img class="hero-photo-lg" src="/images/avatar-medtrainer.png" alt={t.home.heroAlt} />
+  </section>
+
+  <section class="band" id="bio">
+    <div class="wrap intro">
+      <span class="kicker">{t.home.bioKicker}</span>
+      <h2>{t.home.bioHeading}</h2>
+      {t.home.bio.map((paragraph) => <p>{paragraph}</p>)}
+      <p><a class="text-link" href={routes[locale].about}>{t.home.bioLink}</a></p>
+    </div>
+  </section>
+
+  <section class="band alt" id="blog">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">{t.home.blogKicker}</span>
+          <h2>{t.home.blogHeading}</h2>
+          <p class="lede">{t.home.blogLede}</p>
+        </div>
+        <a class="text-link" href={routes[locale].blog}>{t.home.allPosts}</a>
+      </div>
+      <div class="grid-3">
+        {posts.map((post) => (
+          <PostCard
+            locale={locale}
+            href={post.href}
+            title={post.title}
+            description={post.description}
+            date={post.date}
+            minutes={post.minutes}
+            cover={post.cover}
+            cta={t.blog.read}
+            minutesLabel={t.blog.minutes}
+            note={post.untranslated ? t.blog.otherLanguageNote : undefined}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="podcast">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">{t.home.podcastKicker}</span>
+          <h2>Chile, Mole &amp; Tech</h2>
+          <p class="lede">{t.home.podcastLede}</p>
+        </div>
+        <a class="text-link" href={routes[locale].podcast}>{t.home.episodesLink}</a>
+      </div>
+      <PodcastPromo locale={locale} description={t.home.podcastBlurb} />
+    </div>
+  </section>
+
+  <section class="band alt" id="productos">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">{t.home.productsKicker}</span>
+          <h2>{t.home.productsHeading}</h2>
+          <p class="lede">{t.home.productsLede}</p>
+        </div>
+        <a class="text-link" href={routes[locale].products}>{t.home.allProducts}</a>
+      </div>
+      <div class="grid-3">
+        {homeProducts.map((product) => {
+          const copy = productCopy(locale, product);
+          return (
+            <ProductCard
+              href={product.href}
+              title={copy.title}
+              description={copy.summary}
+              image={product.image}
+              alt={copy.alt}
+              price={copy.price}
+              rating={copy.rating}
+              cta={t.products.cta}
+            />
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <Signup locale={locale} anchor text={t.signup.homeText} />
+    </div>
+  </section>
+</SiteLayout>

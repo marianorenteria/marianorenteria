@@ -1,22 +1,27 @@
 ---
 import "../styles/links.css";
+import "../styles/chrome.css";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { htmlLang } from "../i18n";
+import { localeFromPath, type Locale } from "../i18n/routes";
 
 interface Props {
   title: string;
   description: string;
+  locale?: Locale;
 }
 const props = Astro.props;
+const locale = props.locale ?? localeFromPath(Astro.url.pathname);
 ---
-<html lang="es">
+<html lang={htmlLang(locale)}>
   <head>
-    <BaseHead {...props} />
+    <BaseHead {...props} locale={locale} />
   </head>
   <body>
-    <Header variant="links" />
+    <Header variant="links" locale={locale} />
     <slot />
-    <Footer variant="links" />
+    <Footer variant="links" locale={locale} />
   </body>
 </html>

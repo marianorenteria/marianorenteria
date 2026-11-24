@@ -1,17 +1,4 @@
 ---
-import SiteLayout from "../layouts/SiteLayout.astro";
+import NotFound from "../components/views/NotFound.astro";
 ---
-<SiteLayout
-  title="Página no encontrada — Mariano Rentería"
-  description="Esa página no existe en el sitio de Mariano Rentería."
->
-  <section class="page-hero wrap">
-    <span class="kicker">404</span>
-    <h1>Esta página no está.</h1>
-    <p>El enlace no lleva a ningún lado. Puedes volver al inicio o leer el blog.</p>
-    <div class="ctas" style="margin-top:24px;">
-      <a class="btn" href="/">Ir al inicio</a>
-      <a class="btn ghost" href="/blog">Ver el blog</a>
-    </div>
-  </section>
-</SiteLayout>
+<NotFound locale="es" />

@@ -1,0 +1,37 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { useTranslations } from "../../i18n";
+import { localeFromPath, routes, type Locale } from "../../i18n/routes";
+
+interface Props {
+  locale?: Locale;
+}
+const locale = Astro.props.locale ?? localeFromPath(Astro.url.pathname);
+const t = useTranslations(locale);
+---
+<SiteLayout locale={locale} title={t.about.title} description={t.about.description}>
+  <section class="page-hero wrap">
+    <span class="kicker">{t.about.kicker}</span>
+    <h1>{t.about.heading}</h1>
+    <p>{t.about.lede}</p>
+  </section>
+
+  <div class="wrap bio-layout">
+    <img class="portrait" src="/images/avatar-medtrainer.png" alt={t.about.portraitAlt} />
+    <div class="prose">
+      {t.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+
+      <h2>{t.about.communityTitle}</h2>
+      {t.about.community.map((paragraph) => <p>{paragraph}</p>)}
+
+      <h2>{t.about.contactTitle}</h2>
+      <p>{t.about.contactLede}</p>
+      <ul class="contact-list">
+        <li><a href="https://www.linkedin.com/in/marianorenteria/" target="_blank" rel="noopener">{t.about.linkedin}</a></li>
+        <li><a href="https://x.com/marianorenteria" target="_blank" rel="noopener">{t.about.x}</a></li>
+        <li><a href="https://marianorenteria.gumroad.com/l/coach-mentor" target="_blank" rel="noopener">{t.about.book}</a></li>
+        <li><a href={`${routes[locale].blog}#newsletter`}>{t.about.subscribe}</a></li>
+      </ul>
+    </div>
+  </div>
+</SiteLayout>
