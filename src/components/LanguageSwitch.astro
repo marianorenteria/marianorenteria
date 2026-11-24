@@ -1,0 +1,18 @@
+---
+import { otherLocale, sectionSwitchHref, type Locale } from "../i18n/routes";
+import { useTranslations } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  href?: string;
+}
+const { locale, href } = Astro.props;
+const t = useTranslations(locale);
+const target = otherLocale(locale);
+const switchHref = href ?? sectionSwitchHref(Astro.url.pathname, target);
+---
+<div class="lang-switch" role="navigation" aria-label={t.languageLabel}>
+  <a href={locale === "es" ? Astro.url.pathname : switchHref} hreflang="es" lang="es" aria-current={locale === "es" ? "true" : undefined}>ES</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <a href={locale === "en" ? Astro.url.pathname : switchHref} hreflang="en" lang="en" aria-current={locale === "en" ? "true" : undefined}>EN</a>
+</div>

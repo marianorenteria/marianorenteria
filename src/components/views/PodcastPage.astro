@@ -1,0 +1,55 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import PodcastPromo from "../PodcastPromo.astro";
+import { useTranslations } from "../../i18n";
+import { localeFromPath, type Locale } from "../../i18n/routes";
+import { formatDate } from "../../lib/dates";
+import { getEpisodes } from "../../lib/podcast";
+
+interface Props {
+  locale?: Locale;
+}
+const locale = Astro.props.locale ?? localeFromPath(Astro.url.pathname);
+const t = useTranslations(locale);
+const episodes = await getEpisodes(8);
+---
+<SiteLayout locale={locale} title={t.podcast.title} description={t.podcast.description}>
+  <section class="page-hero wrap">
+    <span class="kicker">{t.podcast.kicker}</span>
+    <h1>Chile, Mole &amp; Tech</h1>
+    <p>{t.podcast.lede}</p>
+  </section>
+
+  <section class="band" style="padding-top:8px;">
+    <div class="wrap">
+      <PodcastPromo locale={locale} showAll alt={t.podcast.coverAlt} description={t.podcast.pageBlurb} />
+
+      <div class="section-head" style="margin-top:48px;">
+        <div>
+          <span class="kicker">{t.podcast.episodesKicker}</span>
+          <h2>{t.podcast.episodesHeading}</h2>
+          <p class="lede">{t.podcast.episodesLede}</p>
+        </div>
+      </div>
+
+      {episodes.length > 0 ? (
+        <ol class="episodes">
+          {episodes.map((episode) => (
+            <li class="episode">
+              <div>
+                <div class="when">
+                  {episode.isoDate ? formatDate(episode.isoDate, locale) : episode.date}{episode.duration ? ` · ${episode.duration}` : ""}
+                </div>
+                <h3>{episode.title}</h3>
+                {episode.summary && <p>{episode.summary}</p>}
+              </div>
+              <a class="listen" href={episode.link} target="_blank" rel="noopener">{t.podcast.listen}</a>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="lede">{t.podcast.empty}</p>
+      )}
+    </div>
+  </section>
+</SiteLayout>

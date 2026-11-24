@@ -13,6 +13,13 @@ const blog = defineCollection({
     /** Original URL. Imported DEV posts point canonical here. */
     canonical: z.url().optional(),
     draft: z.boolean().optional(),
+    /** `es` is the default. English translations live beside the Spanish original. */
+    lang: z.enum(["es", "en"]).default("es"),
+    /**
+     * Shared slug for a post and its translation.
+     * Defaults to the filename. Use the same value in both language files.
+     */
+    translationKey: z.string().optional(),
   }),
 });
 

@@ -1,39 +1,55 @@
 ---
-import { isCurrent, nav } from "../data/site";
+import LanguageSwitch from "./LanguageSwitch.astro";
+import { useTranslations } from "../i18n";
+import { isCurrent, localeFromPath, routes, type Locale } from "../i18n/routes";
 
 interface Props {
   variant?: "site" | "links";
+  locale?: Locale;
+  switchHref?: string;
 }
-const { variant = "site" } = Astro.props;
+const { variant = "site", switchHref } = Astro.props;
+const locale = Astro.props.locale ?? localeFromPath(Astro.url.pathname);
+const t = useTranslations(locale);
 const path = Astro.url.pathname;
+const items = [
+  { href: routes[locale].home, label: t.nav.home },
+  { href: routes[locale].about, label: t.nav.about },
+  { href: routes[locale].podcast, label: t.nav.podcast },
+  { href: routes[locale].blog, label: t.nav.blog },
+  { href: routes[locale].products, label: t.nav.products },
+  { href: routes[locale].links, label: t.nav.links },
+];
 ---
 <header>
   <div class="header-inner">
     {variant === "links" ? (
-      <>
-        <a class="brand" href="#top">
-          <img src="/images/avatar-medtrainer.png" alt="" width="36" height="36" />
-          Mariano Rentería
-        </a>
-        <nav aria-label="Principal">
-          <a href="#bio">Bio</a>
-          <a href="#podcast">Podcast</a>
-          <a href="#productos">Productos</a>
-          <a href="#blog">Blog</a>
-        </nav>
-      </>
+      <a class="brand" href="#top">
+        <img src="/images/avatar-medtrainer.png" alt="" width="36" height="36" />
+        Mariano Rentería
+      </a>
     ) : (
-      <>
-        <a class="brand" href="/">
-          <img src="/images/avatar-medtrainer.png" alt="" width="36" height="36" />
-          Mariano Rentería
-        </a>
-        <nav aria-label="Principal">
-          {nav.map((item) => (
+      <a class="brand" href={routes[locale].home}>
+        <img src="/images/avatar-medtrainer.png" alt="" width="36" height="36" />
+        Mariano Rentería
+      </a>
+    )}
+    <div class="header-end">
+      {variant === "links" ? (
+        <nav aria-label={t.navLabel}>
+          <a href="#bio">{t.linksNav.bio}</a>
+          <a href="#podcast">{t.linksNav.podcast}</a>
+          <a href="#productos">{t.linksNav.products}</a>
+          <a href="#blog">{t.linksNav.blog}</a>
+        </nav>
+      ) : (
+        <nav aria-label={t.navLabel}>
+          {items.map((item) => (
             <a href={item.href} aria-current={isCurrent(path, item.href) ? "page" : undefined}>{item.label}</a>
           ))}
         </nav>
-      </>
-    )}
+      )}
+      <LanguageSwitch locale={locale} href={switchHref} />
+    </div>
   </div>
 </header>

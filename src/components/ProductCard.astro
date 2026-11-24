@@ -1,24 +1,28 @@
 ---
-import type { Product } from "../data/products";
-
 interface Props {
-  product: Product;
+  href: string;
+  title: string;
+  description: string;
+  image: string;
+  alt: string;
+  price: string;
+  rating: string;
+  cta: string;
   featured?: boolean;
-  summary?: boolean;
 }
-const { product, featured = false, summary = false } = Astro.props;
+const { href, title, description, image, alt, price, rating, cta, featured = false } = Astro.props;
 ---
-<a class:list={["card", { featured }]} href={product.href} target="_blank" rel="noopener">
+<a class:list={["card", { featured }]} href={href} target="_blank" rel="noopener">
   <div class="thumb">
-    <img src={product.image} alt={product.alt} />
+    <img src={image} alt={alt} />
   </div>
   <div class="body">
-    <h3>{product.title}</h3>
-    <p class="desc">{summary ? product.summary : product.description}</p>
+    <h3>{title}</h3>
+    <p class="desc">{description}</p>
     <div class="meta">
-      <span class="price">{product.price}</span>
-      <span class="rating">{product.rating}</span>
+      <span class="price">{price}</span>
+      <span class="rating">{rating}</span>
     </div>
-    <span class="cta">Ver en Gumroad →</span>
+    <span class="cta">{cta}</span>
   </div>
 </a>

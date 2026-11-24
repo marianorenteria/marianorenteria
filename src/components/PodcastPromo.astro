@@ -1,26 +1,30 @@
 ---
 import Icon from "./Icon.astro";
+import { useTranslations } from "../i18n";
+import type { Locale } from "../i18n/routes";
 import { podcastLinks } from "../data/site";
 
 interface Props {
+  locale: Locale;
   description: string;
   alt?: string;
   showAll?: boolean;
 }
-const { description, alt = "Portada de Chile, Mole & Tech", showAll = false } = Astro.props;
+const { locale, description, alt, showAll = false } = Astro.props;
+const t = useTranslations(locale);
 ---
 <article class="podcast">
-  <img src="/images/podcast-cover.jpg" alt={alt} />
+  <img src="/images/podcast-cover.jpg" alt={alt ?? t.podcast.coverAlt} />
   <div>
     <p>{description}</p>
     <div class="pills">
       <a class="pill" href={podcastLinks.spotify} target="_blank" rel="noopener">
-        <Icon name="spotify" /> Spotify
+        <Icon name="spotify" /> {t.podcast.spotify}
       </a>
-      <a class="pill ghost" href={podcastLinks.apple} target="_blank" rel="noopener">Apple Podcasts</a>
-      <a class="pill ghost" href={podcastLinks.youtube} target="_blank" rel="noopener">YouTube</a>
+      <a class="pill ghost" href={podcastLinks.apple} target="_blank" rel="noopener">{t.podcast.apple}</a>
+      <a class="pill ghost" href={podcastLinks.youtube} target="_blank" rel="noopener">{t.podcast.youtube}</a>
       {showAll && (
-        <a class="pill ghost" href={podcastLinks.all} target="_blank" rel="noopener">Todas las plataformas</a>
+        <a class="pill ghost" href={podcastLinks.all} target="_blank" rel="noopener">{t.podcast.all}</a>
       )}
     </div>
   </div>

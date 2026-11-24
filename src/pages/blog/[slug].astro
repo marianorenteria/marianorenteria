@@ -1,65 +1,15 @@
 ---
-import { render } from "astro:content";
-import SiteLayout from "../../layouts/SiteLayout.astro";
-import Signup from "../../components/Signup.astro";
-import { formatDate, formatLongDate } from "../../lib/dates";
-import { getPosts } from "../../lib/posts";
-import { siteUrl } from "../../data/site";
+import Article from "../../components/views/Article.astro";
+import { getPosts, postSlug } from "../../lib/posts";
 
 export async function getStaticPaths() {
-  const posts = await getPosts();
+  const posts = await getPosts("es");
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: postSlug(post) },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
-const pageUrl = `${siteUrl}/blog/${post.id}`;
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: post.data.title,
-  description: post.data.description,
-  datePublished: post.data.date.toISOString(),
-  author: {
-    "@type": "Person",
-    name: "Mariano Rentería",
-    url: siteUrl,
-  },
-  image: new URL(post.data.cover, siteUrl).href,
-  mainEntityOfPage: pageUrl,
-  url: pageUrl,
-};
 ---
-<SiteLayout
-  title={`${post.data.title} — Mariano Rentería`}
-  description={post.data.description}
-  image={post.data.cover}
-  canonical={post.data.canonical}
-  type="article"
-  publishedTime={post.data.date.toISOString()}
-  schema={schema}
->
-  <article class="article-wrap">
-    <div class="article">
-      <p class="post-meta"><a href="/blog">Blog</a> · {formatDate(post.data.date)} · {post.data.minutes} min de lectura</p>
-      <h1>{post.data.title}</h1>
-      <p class="deck">{post.data.description}</p>
-      <img class="cover" src={post.data.cover} alt="" />
-      <Content />
-      {post.data.canonical && (
-        <p class="source">
-          Publicado originalmente el {formatLongDate(post.data.date)} en <a href={post.data.canonical} target="_blank" rel="noopener">DEV Community</a>.
-        </p>
-      )}
-    </div>
-    <div class="wrap" style="margin-top:48px;">
-      <Signup
-        anchor
-        text="El blog y el newsletter son lo mismo: carrera, liderazgo y tecnología, de vez en cuando, sin spam."
-      />
-    </div>
-  </article>
-</SiteLayout>
+<Article locale="es" post={post} />

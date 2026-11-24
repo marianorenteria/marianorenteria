@@ -1,28 +1,29 @@
 ---
 import { formatDate } from "../lib/dates";
+import type { Locale } from "../i18n/routes";
 
 interface Props {
-  post: {
-    id: string;
-    data: {
-      title: string;
-      description: string;
-      date: Date;
-      minutes: number;
-      cover: string;
-    };
-  };
+  locale: Locale;
+  href: string;
+  title: string;
+  description: string;
+  date: Date;
+  minutes: number;
+  cover: string;
+  cta: string;
+  minutesLabel: string;
+  note?: string;
 }
-const { post } = Astro.props;
+const { locale, href, title, description, date, minutes, cover, cta, minutesLabel, note } = Astro.props;
 ---
-<a class="card" href={`/blog/${post.id}`}>
+<a class="card" href={href}>
   <div class="thumb post">
-    <img src={post.data.cover} alt="" />
+    <img src={cover} alt="" />
   </div>
   <div class="body">
-    <p class="post-meta">{formatDate(post.data.date)} · {post.data.minutes} min</p>
-    <h3>{post.data.title}</h3>
-    <p class="desc">{post.data.description}</p>
-    <span class="cta">Leer el post →</span>
+    <p class="post-meta">{formatDate(date, locale)} · {minutes} {minutesLabel}{note ? ` ${note}` : ""}</p>
+    <h3>{title}</h3>
+    <p class="desc">{description}</p>
+    <span class="cta">{cta}</span>
   </div>
 </a>

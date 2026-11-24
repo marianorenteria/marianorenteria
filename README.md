@@ -45,7 +45,7 @@ npm run preview  # serve that build
 
 ## Write a new post
 
-Add a Markdown file in `src/content/blog/`. The filename becomes the URL: `src/content/blog/mi-nota.md` is published at `/blog/mi-nota`.
+Add a Markdown file in `src/content/blog/`. The filename becomes the URL: `src/content/blog/mi-nota.md` is published at `/blog/mi-nota`. Spanish is the default. An English translation of the same post goes in `src/content/blog/en/mi-nota.md` with `lang: en` and is published at `/en/blog/mi-nota`. Use the same filename, or set `translationKey` to the shared slug in both files. Posts without a translation stay in their original language; the other blog index links to that original instead of an empty page.
 
 ```markdown
 ---

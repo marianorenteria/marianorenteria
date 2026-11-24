@@ -1,0 +1,47 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import PostCard from "../PostCard.astro";
+import Signup from "../Signup.astro";
+import { useTranslations } from "../../i18n";
+import { localeFromPath, type Locale } from "../../i18n/routes";
+import { getBlogList } from "../../lib/posts";
+
+interface Props {
+  locale?: Locale;
+}
+const locale = Astro.props.locale ?? localeFromPath(Astro.url.pathname);
+const t = useTranslations(locale);
+const posts = await getBlogList(locale);
+---
+<SiteLayout locale={locale} title={t.blog.title} description={t.blog.description}>
+  <section class="page-hero wrap">
+    <span class="kicker">{t.blog.kicker}</span>
+    <h1>{t.blog.heading}</h1>
+    <p>{t.blog.lede}</p>
+  </section>
+
+  <section class="band" style="padding-top:12px;">
+    <div class="wrap">
+      <div class="grid-posts">
+        {posts.map((post) => (
+          <PostCard
+            locale={locale}
+            href={post.href}
+            title={post.title}
+            description={post.description}
+            date={post.date}
+            minutes={post.minutes}
+            cover={post.cover}
+            cta={t.blog.read}
+            minutesLabel={t.blog.minutes}
+            note={post.untranslated ? t.blog.otherLanguageNote : undefined}
+          />
+        ))}
+      </div>
+      <p style="margin:28px 0 0;color:var(--muted);">
+        <a class="text-link" href="https://dev.to/marianorenteria" target="_blank" rel="noopener">{t.blog.archive}</a>
+      </p>
+      <Signup locale={locale} anchor extraClass="mt" text={t.signup.pageText} />
+    </div>
+  </section>
+</SiteLayout>

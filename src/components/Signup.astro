@@ -1,37 +1,44 @@
 ---
+import { useTranslations } from "../i18n";
+import type { Locale } from "../i18n/routes";
+
 interface Props {
+  locale: Locale;
   text: string;
   extraClass?: string;
   anchor?: boolean;
 }
-const { text, extraClass, anchor = false } = Astro.props;
+const { locale, text, extraClass, anchor = false } = Astro.props;
+const t = useTranslations(locale);
+const nameId = `sendfox_form_name_${locale}`;
+const emailId = `sendfox_form_email_${locale}`;
 ---
 <div class:list={["signup", extraClass]} id={anchor ? "newsletter" : undefined}>
   <div>
-    <h3>Recibe los nuevos posts por email</h3>
+    <h3>{t.signup.title}</h3>
     <p>{text}</p>
   </div>
   <form
     action="https://sendfox.com/form/1j2e6e/m8qw26"
     method="post"
     class="sendfox-form"
-    id="sendfox-form"
+    id={`sendfox-form-${locale}`}
     data-async="true"
     data-recaptcha="true"
-    aria-label="Suscripción al newsletter"
+    aria-label={t.signup.aria}
   >
     <div class="row">
-      <label class="visually-hidden" for="sendfox_form_name">Nombre</label>
-      <input id="sendfox_form_name" type="text" name="first_name" placeholder="Tu nombre" autocomplete="given-name" />
-      <label class="visually-hidden" for="sendfox_form_email">Correo electrónico</label>
-      <input id="sendfox_form_email" type="email" name="email" placeholder="tu@email.com" autocomplete="email" required />
-      <button type="submit">Suscribirme</button>
+      <label class="visually-hidden" for={nameId}>{t.signup.nameLabel}</label>
+      <input id={nameId} type="text" name="first_name" placeholder={t.signup.namePlaceholder} autocomplete="given-name" />
+      <label class="visually-hidden" for={emailId}>{t.signup.emailLabel}</label>
+      <input id={emailId} type="email" name="email" placeholder={t.signup.emailPlaceholder} autocomplete="email" required />
+      <button type="submit">{t.signup.button}</button>
     </div>
     <div style="position: absolute; left: -5000px;" aria-hidden="true">
       <input type="text" name="a_password" tabindex="-1" value="" autocomplete="off" />
     </div>
     <p class="form-note">
-      Protegido por reCAPTCHA · <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacidad</a> y <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Términos</a> de Google.
+      {t.signup.noteBefore} <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">{t.signup.privacy}</a> {t.signup.and} <a href="https://policies.google.com/terms" target="_blank" rel="noopener">{t.signup.terms}</a> {t.signup.noteAfter}
     </p>
   </form>
 </div>

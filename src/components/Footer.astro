@@ -1,12 +1,20 @@
 ---
 import Socials from "./Socials.astro";
+import { useTranslations } from "../i18n";
+import { localeFromPath, routes, type Locale } from "../i18n/routes";
 import { linksFooterSocials, siteFooterSocials } from "../data/site";
 
 interface Props {
   variant?: "site" | "links";
+  locale?: Locale;
 }
 const { variant = "site" } = Astro.props;
+const locale = Astro.props.locale ?? localeFromPath(Astro.url.pathname);
+const t = useTranslations(locale);
 const year = new Date().getFullYear();
+const socials = (variant === "links" ? linksFooterSocials : siteFooterSocials).map((item) =>
+  item.icon === "dev" ? { ...item, label: t.devLabel } : item,
+);
 ---
 <footer>
   <div class="wrap footer-inner">
@@ -17,11 +25,11 @@ const year = new Date().getFullYear();
         <div class="brand-name">Mariano Rentería</div>
       )}
       {variant === "links" && <br />}
-      Querétaro, México · © {year}
+      {t.footer.place} · © {year}
       {variant === "site" && (
-        <div class="footer-links"><a href="/links">Versión Linktree</a></div>
+        <div class="footer-links"><a href={routes[locale].links}>{t.footer.linktree}</a></div>
       )}
     </div>
-    <Socials items={variant === "links" ? linksFooterSocials : siteFooterSocials} />
+    <Socials items={socials} />
   </div>
 </footer>
