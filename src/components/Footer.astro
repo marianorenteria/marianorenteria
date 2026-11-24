@@ -1,0 +1,27 @@
+---
+import Socials from "./Socials.astro";
+import { linksFooterSocials, siteFooterSocials } from "../data/site";
+
+interface Props {
+  variant?: "site" | "links";
+}
+const { variant = "site" } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      {variant === "links" ? (
+        <strong style="color:var(--ink);font-family:'Fraunces',Georgia,serif;">Mariano Rentería</strong>
+      ) : (
+        <div class="brand-name">Mariano Rentería</div>
+      )}
+      {variant === "links" && <br />}
+      Querétaro, México · © {year}
+      {variant === "site" && (
+        <div class="footer-links"><a href="/links">Versión Linktree</a></div>
+      )}
+    </div>
+    <Socials items={variant === "links" ? linksFooterSocials : siteFooterSocials} />
+  </div>
+</footer>

@@ -1,0 +1,27 @@
+---
+import Icon from "./Icon.astro";
+import { podcastLinks } from "../data/site";
+
+interface Props {
+  description: string;
+  alt?: string;
+  showAll?: boolean;
+}
+const { description, alt = "Portada de Chile, Mole & Tech", showAll = false } = Astro.props;
+---
+<article class="podcast">
+  <img src="/images/podcast-cover.jpg" alt={alt} />
+  <div>
+    <p>{description}</p>
+    <div class="pills">
+      <a class="pill" href={podcastLinks.spotify} target="_blank" rel="noopener">
+        <Icon name="spotify" /> Spotify
+      </a>
+      <a class="pill ghost" href={podcastLinks.apple} target="_blank" rel="noopener">Apple Podcasts</a>
+      <a class="pill ghost" href={podcastLinks.youtube} target="_blank" rel="noopener">YouTube</a>
+      {showAll && (
+        <a class="pill ghost" href={podcastLinks.all} target="_blank" rel="noopener">Todas las plataformas</a>
+      )}
+    </div>
+  </div>
+</article>

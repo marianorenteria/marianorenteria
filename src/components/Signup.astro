@@ -1,0 +1,38 @@
+---
+interface Props {
+  text: string;
+  extraClass?: string;
+  anchor?: boolean;
+}
+const { text, extraClass, anchor = false } = Astro.props;
+---
+<div class:list={["signup", extraClass]} id={anchor ? "newsletter" : undefined}>
+  <div>
+    <h3>Recibe los nuevos posts por email</h3>
+    <p>{text}</p>
+  </div>
+  <form
+    action="https://sendfox.com/form/1j2e6e/m8qw26"
+    method="post"
+    class="sendfox-form"
+    id="sendfox-form"
+    data-async="true"
+    data-recaptcha="true"
+    aria-label="Suscripción al newsletter"
+  >
+    <div class="row">
+      <label class="visually-hidden" for="sendfox_form_name">Nombre</label>
+      <input id="sendfox_form_name" type="text" name="first_name" placeholder="Tu nombre" autocomplete="given-name" />
+      <label class="visually-hidden" for="sendfox_form_email">Correo electrónico</label>
+      <input id="sendfox_form_email" type="email" name="email" placeholder="tu@email.com" autocomplete="email" required />
+      <button type="submit">Suscribirme</button>
+    </div>
+    <div style="position: absolute; left: -5000px;" aria-hidden="true">
+      <input type="text" name="a_password" tabindex="-1" value="" autocomplete="off" />
+    </div>
+    <p class="form-note">
+      Protegido por reCAPTCHA · <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacidad</a> y <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Términos</a> de Google.
+    </p>
+  </form>
+</div>
+<script is:inline src="https://sendfox.com/js/form.js" charset="utf-8"></script>

@@ -1,0 +1,109 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import PodcastPromo from "../components/PodcastPromo.astro";
+import PostCard from "../components/PostCard.astro";
+import ProductCard from "../components/ProductCard.astro";
+import Signup from "../components/Signup.astro";
+import { products } from "../data/products";
+import { sameAs } from "../data/site";
+import { getPosts } from "../lib/posts";
+
+const posts = (await getPosts()).slice(0, 3);
+const homeProducts = products.filter((product) => product.home);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Mariano Rentería",
+  url: "https://marianorenteria.com",
+  jobTitle: "SVP of Engineering",
+  worksFor: { "@type": "Organization", name: "MedTrainer" },
+  homeLocation: { "@type": "Place", name: "Querétaro, México" },
+  description:
+    "Ingeniero, podcaster y mentor. Host de Chile, Mole & Tech. Escribe sobre carrera y tecnología desde Querétaro, para LATAM.",
+  sameAs,
+};
+---
+<SiteLayout
+  title="Mariano Rentería — Ingeniero, podcaster y mentor"
+  description="SVP of Engineering en MedTrainer y host de Chile, Mole & Tech. Mentorías, guías y un blog sobre carrera y tecnología. Desde Querétaro, para LATAM."
+  schema={schema}
+>
+  <section class="hero-home wrap">
+    <div>
+      <span class="kicker">Hola, soy Mariano</span>
+      <h1>Ingeniero, podcaster y mentor. Ayudo a gente de tech a crecer.</h1>
+      <p class="lede">Soy SVP of Engineering en MedTrainer y host de <em>Chile, Mole &amp; Tech</em>. Ex-chilango, neo-queretano. Escribo y acompaño a personas de tecnología desde Querétaro, para LATAM.</p>
+      <div class="ctas">
+        <a class="btn" href="/podcast">Escuchar el podcast</a>
+        <a class="btn ghost" href="#newsletter">Suscribirme</a>
+      </div>
+    </div>
+    <img class="hero-photo-lg" src="/images/avatar-medtrainer.png" alt="Mariano Rentería, sonriendo con una camisa polo clara" />
+  </section>
+
+  <section class="band" id="bio">
+    <div class="wrap intro">
+      <span class="kicker">Sobre mí</span>
+      <h2>Más de 20 años construyendo software.</h2>
+      <p>Empecé a programar a los 12. Pasé por equipos en Walmart y GE, y hoy dirijo ingeniería en MedTrainer, una empresa de health tech donde entré el día uno y ayudé a crecer el equipo a más de 90 personas en México y Estados Unidos.</p>
+      <p>Cada semana platico de tecnología en el podcast, escribo sobre carrera y liderazgo — el blog y el newsletter son lo mismo — y acompaño a gente de tech con mentorías y guías prácticas. También soy co-organizador de AI Tinkerers Querétaro y formo parte de la comunidad PHP México.</p>
+      <p><a class="text-link" href="/sobre-mi">Leer la bio completa →</a></p>
+    </div>
+  </section>
+
+  <section class="band alt" id="blog">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Blog y newsletter</span>
+          <h2>Lo último que escribí</h2>
+          <p class="lede">Carrera, liderazgo y tecnología. Lo que publico aquí también te puede llegar por email.</p>
+        </div>
+        <a class="text-link" href="/blog">Ver todos los posts →</a>
+      </div>
+      <div class="grid-3">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="podcast">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Podcast</span>
+          <h2>Chile, Mole &amp; Tech</h2>
+          <p class="lede">Un podcast amateur de tecnología, con un foco y cariño especial en TI. Desde México para LATAM y España, with love.</p>
+        </div>
+        <a class="text-link" href="/podcast">Ver episodios →</a>
+      </div>
+      <PodcastPromo description="Platico, a veces solo y a veces con invitadas e invitados, de programación, liderazgo, contratación, startups y lo que se cuece en la industria. Ya van más de 170 episodios — un episodio nuevo casi cada semana." />
+    </div>
+  </section>
+
+  <section class="band alt" id="productos">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Gumroad</span>
+          <h2>Libros y asesorías</h2>
+          <p class="lede">Guías prácticas y sesiones uno a uno para crecer en tech.</p>
+        </div>
+        <a class="text-link" href="/productos">Ver todos los productos →</a>
+      </div>
+      <div class="grid-3">
+        {homeProducts.map((product) => <ProductCard product={product} summary />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <Signup
+        anchor
+        text="El blog y el newsletter son lo mismo: carrera, liderazgo y tecnología, de vez en cuando, sin spam."
+      />
+    </div>
+  </section>
+</SiteLayout>

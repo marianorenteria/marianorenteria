@@ -1,0 +1,28 @@
+---
+import { formatDate } from "../lib/dates";
+
+interface Props {
+  post: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      date: Date;
+      minutes: number;
+      cover: string;
+    };
+  };
+}
+const { post } = Astro.props;
+---
+<a class="card" href={`/blog/${post.id}`}>
+  <div class="thumb post">
+    <img src={post.data.cover} alt="" />
+  </div>
+  <div class="body">
+    <p class="post-meta">{formatDate(post.data.date)} · {post.data.minutes} min</p>
+    <h3>{post.data.title}</h3>
+    <p class="desc">{post.data.description}</p>
+    <span class="cta">Leer el post →</span>
+  </div>
+</a>
