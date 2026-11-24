@@ -81,17 +81,21 @@ Newsletter forms post to SendFox (`https://sendfox.com/form/1j2e6e/m8qw26`) with
 
 ## Deploy
 
-`npm run build` writes the site to `dist/`. Any host that can run that command and publish `dist/` will do.
+`npm run build` writes the site to `dist/`. The site is served as static assets by a Cloudflare Worker named `marianorenteria`, built with Workers Builds from this repository. The production branch is `master`.
 
-**Cloudflare Pages** is a good free default:
+Workers Builds settings:
 
-1. Push this repository to GitHub.
-2. Create a Cloudflare Pages project from the repository.
-3. Build command: `npm run build`
-4. Build output directory: `dist`
-5. Set `NODE_VERSION` to `22` (`.node-version` already says 22).
-6. After the first green build, add the custom domain `marianorenteria.com`.
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
 
-Netlify and Vercel use the same build command, the same output directory, and Node 22. This repo does not connect a hosting account for you. Point DNS for `marianorenteria.com` at whichever host you pick, after a deploy succeeds.
+`wrangler.jsonc` names the worker, publishes `./dist`, and sets HTML handling so `/links`, `/blog`, and the other folder pages resolve to their `index.html` files. `not_found_handling` is `404-page`, which serves Astro's `dist/404.html` for unknown URLs.
 
-The build should be allowed to fetch `anchor.fm` so podcast episodes stay current. If that request is blocked, the committed snapshot is used instead.
+Set `NODE_VERSION` to `22` (`.node-version` already says 22). The build should be allowed to fetch `anchor.fm` so podcast episodes stay current. If that request is blocked, the committed snapshot is used instead.
+
+Check the config without publishing:
+
+```bash
+npm run build && npx wrangler deploy --dry-run
+```
+
+After the first deploy, attach `marianorenteria.com` to the worker. This repo does not log in to Cloudflare for you.
